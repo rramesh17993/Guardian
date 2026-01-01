@@ -1,5 +1,10 @@
 # Guardian: Multi-Cloud Workload Placement Optimizer
 
+[![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
+[![Python 3.11+](https://img.shields.io/badge/Python-3.11+-blue.svg)]()
+[![Kubernetes 1.24+](https://img.shields.io/badge/Kubernetes-1.24%2B-blue.svg)]()
+![Status](https://img.shields.io/badge/Status-Alpha-red.svg)
+
 Guardian is an intelligent Kubernetes operator that continuously optimizes workload placement across multiple cloud providers (AWS, GCP, Azure). It leverages machine learning to predict cost and performance, automatically migrating workloads to the optimal execution environment.
 
 ## The Problem
@@ -22,18 +27,26 @@ Guardian treats cloud placement as a continuously optimizable decision. It inges
 - **SLA Protection**: Balances cost savings with latency requirements to ensure performance never suffers.
 - **True Multi-Cloud**: Move beyond "multi-cloud visibility" to "multi-cloud execution."
 
-## Quick Start
+## Installation & Quick Start
 
-Get Guardian running in 3 commands:
+Get Guardian running in minutes:
 
 ```bash
-# 1. Install CRDs and RBAC
-kubectl apply -f deploy/crds/ && kubectl apply -f deploy/rbac.yaml
+# 1. Clone repo
+git clone https://github.com/rramesh17993/Guardian
+cd Guardian
 
-# 2. Deploy the Operator
+# 2. Install dependencies
+pip install -r requirements.txt
+
+# 3. Apply CRDs and RBAC
+kubectl apply -f deploy/crds/
+kubectl apply -f deploy/rbac.yaml
+
+# 4. Deploy the Operator
 kubectl apply -f deploy/operator.yaml
 
-# 3. Apply your first optimization policy
+# 5. Apply an optimization policy
 kubectl apply -f examples/cost-optimizer.yaml
 ```
 
