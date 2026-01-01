@@ -1,0 +1,18 @@
+apiVersion: guardian.io/v1alpha1
+kind: WorkloadPlacementPolicy
+metadata:
+  name: example-app-optimizer
+spec:
+  workloadSelector:
+    matchLabels:
+      app: web-server
+  criteria:
+    cost:
+      weight: 70
+      threshold: 0.15 # Migrate if 15% savings found
+    latency:
+      weight: 30
+      maxAcceptable: 80
+  migration:
+    enabled: true
+    strategy: live
