@@ -1,0 +1,18 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: guardian
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: guardian
+  template:
+    metadata:
+      labels:
+        app: guardian
+    spec:
+      containers:
+        - name: operator
+          image: guardian:latest
+          imagePullPolicy: IfNotPresent
