@@ -39,25 +39,56 @@ kubectl apply -f examples/cost-optimizer.yaml
 
 ## Architecture
 
-Guardian operates as a continuous control loop within your cluster.
+Guardian operates as a continuous control loop across your multi-cloud inventory.
+
+### Conceptual View
+
+```text
+       [ SIGNAL INGESTION ]          [ INTELLIGENCE ]          [ EXECUTION ]
+      /                    \        /                \        /             \
+AWS  +----------------------+      +------------------+      +---------------+
+GCP  |  Metrics Collector   | ---> |    ML Engine     | ---> | Migration     |
+AZR  +----------------------+      +------------------+      | Orchestrator  |
+      \                    /      /                  \       +---------------+
+       [ Latency Probes   ]      [ Decision Engine  ]               |
+                                                                    v
+                                                     [ TARGET CLOUD CLUSTER ]
+```
+
+### Technical Component Flow
 
 ```mermaid
-graph TD
-    subgraph Signal Ingestion
-        A[Metrics Collector] -->|Real-time Spot/On-Demand Prices| B[Unified Data Store]
-        C[Latency Probes] -->|Network Latency| B
+graph LR
+    subgraph "Signal Ingestion"
+        MC[Metrics Collector]
+        LP[Latency Probes]
     end
+
+    subgraph "Intelligence (Operator)"
+        ML[ML Prediction Engine]
+        DE[Decision Engine]
+        Policy[Placement Policy]
+    end
+
+    subgraph "Multi-Cloud Inventory"
+        AWS[AWS Cluster]
+        GCP[GCP Cluster]
+        AZR[Azure Cluster]
+    end
+
+    MC -->|Spot/On-Demand| ML
+    LP -->|Regional Latency| ML
+    AWS -.->|Workload Telemetry| MC
+    GCP -.->|Workload Telemetry| MC
+    AZR -.->|Workload Telemetry| MC
+
+    ML -->|Predictions| DE
+    Policy --> DE
     
-    subgraph Intelligence
-        B --> D[ML Engine]
-        D -->|Predicted Cost & Performance| E[Decision Engine]
-        F[WorkloadPlacementPolicy] --> E
-    end
-    
-    subgraph Execution
-        E -->|Migration Plan| G[Migration Orchestrator]
-        G -->|Zero-Downtime Move| H[Target Cloud/Region]
-    end
+    DE -->|Migration Plan| MO[Migration Orchestrator]
+    MO -->|Zero-Downtime Migration| AWS
+    MO -->|Zero-Downtime Migration| GCP
+    MO -->|Zero-Downtime Migration| AZR
 ```
 
 ## Competitive Positioning
