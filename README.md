@@ -71,11 +71,12 @@ graph TD
 
 ## Roadmap
 
-The Guardian project is currently in its rapid development phase:
-
-- **Weeks 1-2 (MVP)**: Core operator loop, AWS pricing ingestion, simple cost model.
-- **Weeks 3-4 (Intelligence)**: GCP/Azure support, Multi-objective optimization (Cost vs Latency).
-- **Week 5 (Production)**: Live migration safety checks, automatic rollbacks, and audit trails.
+- [x] **v0.1.0 (MVP)**: Core operator loop, multi-cloud pricing ingestion (AWS/Azure/GCP).
+- [x] **Intelligence**: ML-driven prediction models and multi-objective optimization.
+- [x] **Autonomous Execution**: Migration orchestration with health validation and simulation.
+- [ ] **v0.2.0**: Advanced GitOps integration with cluster-api for automated provisioning.
+- [ ] **Real-world Migration**: Plug-in drivers for Velociraptor or Velero for stateful migration.
+- [ ] **Reinforcement Learning**: Transition from Random Forest to RL for dynamic placement.
 
 ## Contributing
 
